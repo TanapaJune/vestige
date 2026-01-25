@@ -91,16 +91,14 @@ Restart Claude Code/Desktop. You should see 29 Vestige tools available.
 
 ## Why Vestige?
 
-| Feature | What It Does | Who Else Has It |
-|---------|--------------|-----------------|
-| **Prediction Error Gating** | Auto-decides create/update/supersede based on similarity | Nobody |
-| **FSRS-6 Spaced Repetition** | Full 21-parameter algorithm trained on millions of reviews | Nobody in AI memory |
-| **Retroactive Importance** | Mark something important, past 9 hours of memories strengthen | Nobody |
-| **Context-Dependent Recall** | Retrieval matches encoding context (Tulving 1973) | Nobody |
-| **Memory States** | Active/Dormant/Silent/Unavailable accessibility model | Nobody |
-| **100% Local** | No API keys, no cloud, no data leaves your machine | Rare |
-
-> Other tools store memories. Vestige understands how memory actually works.
+| Feature | What It Does |
+|---------|--------------|
+| **Prediction Error Gating** | Auto-decides create/update/supersede based on similarity |
+| **FSRS-6 Spaced Repetition** | Full 21-parameter algorithm trained on millions of reviews |
+| **Retroactive Importance** | Mark something important, past 9 hours of memories strengthen |
+| **Context-Dependent Recall** | Retrieval matches encoding context (Tulving 1973) |
+| **Memory States** | Active/Dormant/Silent/Unavailable accessibility model |
+| **100% Local** | No API keys, no cloud, no data leaves your machine |
 
 ---
 
