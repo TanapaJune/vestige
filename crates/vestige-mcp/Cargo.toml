@@ -1,0 +1,54 @@
+[package]
+name = "vestige-mcp"
+version = "1.0.0"
+edition = "2021"
+description = "Cognitive memory MCP server for Claude - FSRS-6, spreading activation, synaptic tagging, and 130 years of memory research"
+authors = ["samvallad33"]
+license = "MIT OR Apache-2.0"
+keywords = ["mcp", "ai", "memory", "fsrs", "neuroscience", "cognitive-science", "spaced-repetition"]
+categories = ["command-line-utilities", "database"]
+repository = "https://github.com/samvallad33/vestige"
+
+[[bin]]
+name = "vestige-mcp"
+path = "src/main.rs"
+
+[dependencies]
+# ============================================================================
+# VESTIGE CORE - The cognitive science engine
+# ============================================================================
+# Includes: FSRS-6, spreading activation, synaptic tagging, hippocampal indexing,
+# memory states, context memory, importance signals, dreams, and more
+vestige-core = { version = "1.0.0", path = "../vestige-core", features = ["full"] }
+
+# ============================================================================
+# MCP Server Dependencies
+# ============================================================================
+# Async runtime
+tokio = { version = "1", features = ["full", "io-std"] }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# UUID
+uuid = { version = "1", features = ["v4", "serde"] }
+
+# Error handling
+thiserror = "2"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Platform directories
+directories = "6"
+
+# Official Anthropic MCP Rust SDK
+rmcp = "0.14"
+
+[dev-dependencies]
+tempfile = "3"

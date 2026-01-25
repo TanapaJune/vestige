@@ -1,0 +1,23 @@
+{
+  "name": "@vestige/mcp",
+  "version": "0.1.0",
+  "description": "Vestige MCP Server - AI Memory System for Claude and other assistants",
+  "bin": {
+    "vestige-mcp": "./bin/vestige-mcp.js"
+  },
+  "scripts": {
+    "postinstall": "node scripts/postinstall.js"
+  },
+  "keywords": ["mcp", "claude", "ai", "memory", "vestige"],
+  "author": "Sam Valladares",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samvallad33/vestige"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": ["darwin", "linux", "win32"],
+  "cpu": ["x64", "arm64"]
+}

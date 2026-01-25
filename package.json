@@ -1,0 +1,24 @@
+{
+  "name": "vestige",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cognitive memory for AI - MCP server with FSRS-6 spaced repetition",
+  "author": "Sam Valladares",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samvallad33/vestige"
+  },
+  "scripts": {
+    "build:mcp": "cargo build --release --package vestige-mcp",
+    "test": "cargo test --workspace",
+    "lint": "cargo clippy -- -D warnings",
+    "fmt": "cargo fmt"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

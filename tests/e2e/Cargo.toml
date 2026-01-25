@@ -1,0 +1,102 @@
+[package]
+name = "vestige-e2e-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+vestige-core = { path = "../../crates/vestige-core", features = ["full"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+tempfile = "3"
+serde_json = "1"
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
+
+[[test]]
+name = "cognitive_tests"
+path = "tests/cognitive/mod.rs"
+
+[[test]]
+name = "spreading_activation"
+path = "tests/cognitive/spreading_activation_tests.rs"
+
+[[test]]
+name = "dreams"
+path = "tests/cognitive/dreams_tests.rs"
+
+[[test]]
+name = "psychology_tests"
+path = "tests/cognitive/psychology_tests.rs"
+
+[[test]]
+name = "neuroscience_tests"
+path = "tests/cognitive/neuroscience_tests.rs"
+
+[[test]]
+name = "comparative_benchmarks"
+path = "tests/cognitive/comparative_benchmarks.rs"
+
+[[test]]
+name = "mcp_tests"
+path = "tests/mcp/mod.rs"
+
+[[test]]
+name = "mcp_protocol"
+path = "tests/mcp/protocol_tests.rs"
+
+[[test]]
+name = "mcp_tools"
+path = "tests/mcp/tool_tests.rs"
+
+# Journey tests - complete user workflow validation
+[[test]]
+name = "journey_tests"
+path = "tests/journeys/mod.rs"
+
+[[test]]
+name = "ingest_recall_review"
+path = "tests/journeys/ingest_recall_review.rs"
+
+[[test]]
+name = "consolidation_workflow"
+path = "tests/journeys/consolidation_workflow.rs"
+
+[[test]]
+name = "intentions_workflow"
+path = "tests/journeys/intentions_workflow.rs"
+
+[[test]]
+name = "spreading_activation_journey"
+path = "tests/journeys/spreading_activation.rs"
+
+[[test]]
+name = "import_export"
+path = "tests/journeys/import_export.rs"
+
+# Extreme tests - chaos, adversarial, mathematical, research validation
+[[test]]
+name = "extreme_tests"
+path = "tests/extreme/mod.rs"
+
+[[test]]
+name = "chaos_tests"
+path = "tests/extreme/chaos_tests.rs"
+
+[[test]]
+name = "adversarial_tests"
+path = "tests/extreme/adversarial_tests.rs"
+
+[[test]]
+name = "mathematical_tests"
+path = "tests/extreme/mathematical_tests.rs"
+
+[[test]]
+name = "research_validation_tests"
+path = "tests/extreme/research_validation_tests.rs"
+
+[[test]]
+name = "proof_of_superiority"
+path = "tests/extreme/proof_of_superiority.rs"

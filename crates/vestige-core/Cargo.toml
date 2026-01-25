@@ -1,0 +1,86 @@
+[package]
+name = "vestige-core"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.75"
+authors = ["Vestige Team"]
+description = "Cognitive memory engine - FSRS-6 spaced repetition, semantic embeddings, and temporal memory"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/samvallad33/vestige"
+keywords = ["memory", "spaced-repetition", "fsrs", "embeddings", "knowledge-graph"]
+categories = ["science", "database"]
+
+[features]
+default = ["embeddings", "vector-search"]
+
+# Core embeddings with fastembed (ONNX-based, local inference)
+embeddings = ["dep:fastembed"]
+
+# HNSW vector search with USearch (20x faster than FAISS)
+vector-search = ["dep:usearch"]
+
+# Full feature set including MCP protocol support
+full = ["embeddings", "vector-search"]
+
+# MCP (Model Context Protocol) support for Claude integration
+mcp = []
+
+[dependencies]
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Date/Time with full timezone support
+chrono = { version = "0.4", features = ["serde"] }
+
+# UUID v4 generation
+uuid = { version = "1", features = ["v4", "serde"] }
+
+# Error handling
+thiserror = "2"
+
+# Database - SQLite with FTS5 full-text search and JSON
+rusqlite = { version = "0.38", features = ["bundled", "chrono", "serde_json"] }
+
+# Platform-specific directories
+directories = "6"
+
+# Async runtime (required for codebase module)
+tokio = { version = "1", features = ["sync", "rt-multi-thread", "macros"] }
+
+# Tracing for structured logging
+tracing = "0.1"
+
+# Git integration for codebase memory
+git2 = "0.20"
+
+# File watching for codebase memory
+notify = "8"
+
+# ============================================================================
+# OPTIONAL: Embeddings (fastembed v5 - local ONNX inference, 2026 bleeding edge)
+# ============================================================================
+# BGE-base-en-v1.5: 768 dimensions, 85%+ Top-5 accuracy (vs 56% for MiniLM)
+fastembed = { version = "5", optional = true }
+
+# ============================================================================
+# OPTIONAL: Vector Search (USearch - HNSW, 20x faster than FAISS)
+# ============================================================================
+usearch = { version = "2", optional = true }
+
+# LRU cache for query embeddings
+lru = "0.16"
+
+[dev-dependencies]
+tempfile = "3"
+
+[lib]
+name = "vestige_core"
+path = "src/lib.rs"
+
+# Enable doctests
+doctest = true
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
