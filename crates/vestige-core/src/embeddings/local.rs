@@ -1,14 +1,15 @@
 //! Local Semantic Embeddings
 //!
 //! Uses fastembed v5 for local ONNX-based embedding generation.
-//! Default model: BGE-base-en-v1.5 (768 dimensions, 85%+ Top-5 accuracy)
+//! Default model: Nomic Embed Text v1.5 (768 dimensions, Matryoshka support)
 //!
 //! ## 2026 GOD TIER UPGRADE
 //!
-//! Upgraded from all-MiniLM-L6-v2 (384d, 56% accuracy) to BGE-base-en-v1.5:
-//! - +30% retrieval accuracy
-//! - 768 dimensions for richer semantic representation
+//! Upgraded to nomic-embed-text-v1.5:
+//! - 768 dimensions with Matryoshka representation learning
+//! - 8192 token context window (vs 512 for most models)
 //! - State-of-the-art MTEB benchmark performance
+//! - Fully open source with training data released
 
 use fastembed::{EmbeddingModel, InitOptions, TextEmbedding};
 use std::sync::{Mutex, OnceLock};
@@ -17,8 +18,8 @@ use std::sync::{Mutex, OnceLock};
 // CONSTANTS
 // ============================================================================
 
-/// Embedding dimensions for the default model (BGE-base-en-v1.5)
-/// Upgraded from 384 (MiniLM) to 768 (BGE) for +30% accuracy
+/// Embedding dimensions for the default model (nomic-embed-text-v1.5)
+/// 768 dimensions with Matryoshka support (can truncate to 256/512 if needed)
 pub const EMBEDDING_DIMENSIONS: usize = 768;
 
 /// Maximum text length for embedding (truncated if longer)
@@ -35,19 +36,19 @@ pub const BATCH_SIZE: usize = 32;
 static EMBEDDING_MODEL_RESULT: OnceLock<Result<Mutex<TextEmbedding>, String>> = OnceLock::new();
 
 /// Initialize the global embedding model
-/// Using BGE-base-en-v1.5 (768d) - 2026 GOD TIER upgrade from MiniLM-L6-v2
+/// Using nomic-embed-text-v1.5 (768d) - 8192 token context, Matryoshka support
 fn get_model() -> Result<std::sync::MutexGuard<'static, TextEmbedding>, EmbeddingError> {
     let result = EMBEDDING_MODEL_RESULT.get_or_init(|| {
-        // BGE-base-en-v1.5: 768 dimensions, 85%+ Top-5 accuracy
-        // Massive upgrade from MiniLM-L6-v2 (384d, 56% accuracy)
+        // nomic-embed-text-v1.5: 768 dimensions, 8192 token context
+        // Matryoshka representation learning, fully open source
         let options =
-            InitOptions::new(EmbeddingModel::BGEBaseENV15).with_show_download_progress(true);
+            InitOptions::new(EmbeddingModel::NomicEmbedTextV15).with_show_download_progress(true);
 
         TextEmbedding::try_new(options)
             .map(Mutex::new)
             .map_err(|e| {
                 format!(
-                    "Failed to initialize BGE-base-en-v1.5 embedding model: {}. \
+                    "Failed to initialize nomic-embed-text-v1.5 embedding model: {}. \
                     Ensure ONNX runtime is available and model files can be downloaded.",
                     e
                 )
@@ -197,7 +198,7 @@ impl EmbeddingService {
 
     /// Get the model name
     pub fn model_name(&self) -> &'static str {
-        "BAAI/bge-base-en-v1.5"
+        "nomic-ai/nomic-embed-text-v1.5"
     }
 
     /// Get the embedding dimensions

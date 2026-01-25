@@ -60,7 +60,7 @@ notify = "8"
 # ============================================================================
 # OPTIONAL: Embeddings (fastembed v5 - local ONNX inference, 2026 bleeding edge)
 # ============================================================================
-# BGE-base-en-v1.5: 768 dimensions, 85%+ Top-5 accuracy (vs 56% for MiniLM)
+# nomic-embed-text-v1.5: 768 dimensions, 8192 token context, Matryoshka support
 fastembed = { version = "5", optional = true }
 
 # ============================================================================

@@ -4,7 +4,7 @@
 //!
 //! - **FSRS-6**: 21-parameter spaced repetition (30% more efficient than SM-2)
 //! - **Dual-Strength Model**: Bjork & Bjork (1992) storage/retrieval strength
-//! - **Semantic Embeddings**: Local fastembed v5 (BGE-base-en-v1.5, 768 dimensions)
+//! - **Semantic Embeddings**: Local fastembed v5 (nomic-embed-text-v1.5, 768 dimensions)
 //! - **HNSW Vector Search**: USearch (20x faster than FAISS)
 //! - **Temporal Memory**: Bi-temporal model with validity periods
 //! - **Hybrid Search**: RRF fusion of keyword (BM25/FTS5) + semantic
@@ -394,9 +394,9 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 /// FSRS algorithm version (6 = 21 parameters)
 pub const FSRS_VERSION: u8 = 6;
 
-/// Default embedding model (2026 GOD TIER: BGE-base-en-v1.5)
-/// Upgraded from all-MiniLM-L6-v2 for +30% retrieval accuracy
-pub const DEFAULT_EMBEDDING_MODEL: &str = "BAAI/bge-base-en-v1.5";
+/// Default embedding model (2026 GOD TIER: nomic-embed-text-v1.5)
+/// 8192 token context, Matryoshka support, fully open source
+pub const DEFAULT_EMBEDDING_MODEL: &str = "nomic-ai/nomic-embed-text-v1.5";
 
 // ============================================================================
 // PRELUDE

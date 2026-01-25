@@ -6,7 +6,7 @@ A bleeding-edge Rust MCP (Model Context Protocol) server for Vestige - providing
 
 - **FSRS-6 Algorithm**: State-of-the-art spaced repetition (21 parameters, personalized decay)
 - **Dual-Strength Memory Model**: Based on Bjork & Bjork 1992 cognitive science research
-- **Local Semantic Embeddings**: BGE-base-en-v1.5 (768d) via fastembed v5 (no external API)
+- **Local Semantic Embeddings**: nomic-embed-text-v1.5 (768d) via fastembed v5 (no external API)
 - **HNSW Vector Search**: USearch-based, 20x faster than FAISS
 - **Hybrid Search**: BM25 + semantic with RRF fusion
 - **Codebase Memory**: Remember patterns, decisions, and context
