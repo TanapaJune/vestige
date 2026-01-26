@@ -165,24 +165,15 @@ All memories are stored in a **single local SQLite file**:
 | Linux | `~/.local/share/vestige/core/vestige.db` |
 | Windows | `%APPDATA%\vestige\core\vestige.db` |
 
-**⚠️ There is no cloud sync, no redundancy, and no automatic backup.**
+**Important:** Vestige stores data locally with no cloud sync, redundancy, or automatic backup. Data loss can occur from accidental deletion, disk failure, or device loss.
 
-If that file gets:
-- Accidentally deleted
-- Corrupted (disk failure, power loss mid-write)
-- Lost (laptop stolen, hard drive dies)
+| Use Case | Risk Level | Recommendation |
+|----------|------------|----------------|
+| AI conversation memory | Low | Acceptable without backup—easily rebuilt |
+| Coding patterns & decisions | Medium | Periodic backups recommended |
+| Sensitive/critical data | High | **Not recommended**—use purpose-built systems |
 
-...the memories are **gone**.
-
----
-
-**For AI memory = Totally Fine**
-
-If you lose your Claude memories, you just start over. Annoying but not catastrophic.
-
-**For critical data = Not Fine**
-
-Don't store medical records, financial transactions, or legal documents in Vestige.
+**Vestige is not designed for:** medical records, financial transactions, legal documents, or any data requiring compliance guarantees.
 
 ---
 
