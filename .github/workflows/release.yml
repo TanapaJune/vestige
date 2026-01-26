@@ -15,12 +15,15 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # macOS ARM64 (Apple Silicon) - Intel macOS dropped, no free runners after macos-13 retirement
+          # macOS ARM64 (Apple Silicon)
           - target: aarch64-apple-darwin
             os: macos-latest
-          # Linux x86_64 - ARM64 Linux dropped (cross-compile OpenSSL issues), users can build from source
+          # Linux x86_64
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
+          # Windows x86_64
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
 
     runs-on: ${{ matrix.os }}
 
@@ -35,21 +38,37 @@ jobs:
           args: "--locked --release --package vestige-mcp"
           strip: true
 
-      - name: Package
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
         run: |
           mkdir -p dist
           cp target/${{ matrix.target }}/release/vestige-mcp dist/ 2>/dev/null || true
           cp target/${{ matrix.target }}/release/vestige dist/ 2>/dev/null || true
           cd dist
-          if [ -f vestige-mcp ]; then
-            tar czf vestige-mcp-${{ matrix.target }}.tar.gz vestige-mcp vestige 2>/dev/null || tar czf vestige-mcp-${{ matrix.target }}.tar.gz vestige-mcp
-          fi
+          tar czf vestige-mcp-${{ matrix.target }}.tar.gz *
 
-      - name: Upload artifact
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist
+          Copy-Item "target/${{ matrix.target }}/release/vestige-mcp.exe" -Destination dist/ -ErrorAction SilentlyContinue
+          Copy-Item "target/${{ matrix.target }}/release/vestige.exe" -Destination dist/ -ErrorAction SilentlyContinue
+          Compress-Archive -Path dist/* -DestinationPath "dist/vestige-mcp-${{ matrix.target }}.zip"
+
+      - name: Upload artifact (Unix)
+        if: runner.os != 'Windows'
         uses: actions/upload-artifact@v4
         with:
           name: vestige-mcp-${{ matrix.target }}
           path: dist/vestige-mcp-${{ matrix.target }}.tar.gz
+
+      - name: Upload artifact (Windows)
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: vestige-mcp-${{ matrix.target }}
+          path: dist/vestige-mcp-${{ matrix.target }}.zip
 
   release:
     needs: build
@@ -64,5 +83,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/**/*.tar.gz
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/*.zip
           generate_release_notes: true
