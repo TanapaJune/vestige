@@ -12,17 +12,19 @@ env:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - target: x86_64-apple-darwin
-            os: macos-latest
-            use_cross: false
+          # macOS ARM64 (native on Apple Silicon runners)
           - target: aarch64-apple-darwin
             os: macos-latest
-            use_cross: false
+          # macOS x86_64 (uses older Intel-based runner)
+          - target: x86_64-apple-darwin
+            os: macos-13
+          # Linux x86_64
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
-            use_cross: false
+          # Linux ARM64 (uses cross for proper cross-compilation)
           - target: aarch64-unknown-linux-gnu
             os: ubuntu-latest
             use_cross: true
@@ -41,11 +43,17 @@ jobs:
         if: matrix.use_cross
         run: cargo install cross --git https://github.com/cross-rs/cross
 
-      - name: Install dependencies (Linux)
+      - name: Install dependencies (Ubuntu)
         if: matrix.os == 'ubuntu-latest' && !matrix.use_cross
         run: |
           sudo apt-get update
           sudo apt-get install -y libssl-dev pkg-config
+
+      - name: Install dependencies (macOS)
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          brew install openssl@3
+          echo "OPENSSL_DIR=$(brew --prefix openssl@3)" >> $GITHUB_ENV
 
       - name: Build MCP Server (native)
         if: "!matrix.use_cross"
@@ -61,7 +69,7 @@ jobs:
         run: |
           mkdir -p dist
           cp target/${{ matrix.target }}/release/vestige-mcp dist/
-          cp target/${{ matrix.target }}/release/vestige dist/ || true
+          cp target/${{ matrix.target }}/release/vestige dist/ 2>/dev/null || true
           cd dist && tar czf vestige-mcp-${{ matrix.target }}.tar.gz vestige-mcp vestige 2>/dev/null || tar czf vestige-mcp-${{ matrix.target }}.tar.gz vestige-mcp
 
       - name: Upload artifact
