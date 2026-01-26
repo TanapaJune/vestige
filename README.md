@@ -14,7 +14,7 @@ The only MCP memory server built on cognitive science. FSRS-6 spaced repetition,
 
 > **Released January 2025** — 11 hours after v1.0
 
-### Tool Consolidation: 29 → 8
+### Tool Consolidation: 29 → 8 Cognitive Primitives + 3 CLI Admin Commands
 | Old Tools | New Tool | Why Better |
 |-----------|----------|------------|
 | `recall`, `semantic_search`, `hybrid_search` | `search` | Hybrid is always best—no decision needed |
@@ -22,7 +22,8 @@ The only MCP memory server built on cognitive science. FSRS-6 spaced repetition,
 | `remember_pattern`, `remember_decision`, `get_codebase_context` | `codebase` | Unified codebase memory |
 | 5 separate intention tools | `intention` | Familiar action-based API |
 
-### New CLI Binary
+### CLI Admin Commands (Moved from MCP)
+Stats and maintenance removed from MCP to minimize context window usage:
 ```bash
 vestige stats              # Memory statistics
 vestige stats --tagging    # Retention distribution
@@ -31,6 +32,14 @@ vestige health             # System health check
 vestige consolidate        # Run memory maintenance
 vestige restore <file>     # Restore from backup
 ```
+
+### Feedback Tools (Preference Learning)
+| Tool | When to Use |
+|------|-------------|
+| `promote_memory` | User confirms a memory was helpful |
+| `demote_memory` | User corrects a hallucination or says memory was wrong |
+
+Claude automatically uses these based on user feedback—no permission needed.
 
 ### Documentation
 - **30+ FAQ entries** with verified neuroscience claims

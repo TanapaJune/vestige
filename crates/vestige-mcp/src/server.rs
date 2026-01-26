@@ -103,8 +103,10 @@ impl McpServer {
             instructions: Some(
                 "Vestige is your long-term memory system. Use it to remember important information, \
                  recall past knowledge, and maintain context across sessions. The system uses \
-                 FSRS-6 spaced repetition to naturally decay memories over time - review important \
-                 memories to strengthen them.".to_string()
+                 FSRS-6 spaced repetition to naturally decay memories over time. \
+                 \n\nFeedback Protocol: If the user explicitly confirms a memory was helpful, use \
+                 promote_memory. If they correct a hallucination or say a memory was wrong, use \
+                 demote_memory. Do not ask for permission - just act on their feedback.".to_string()
             ),
         };
 
@@ -180,22 +182,8 @@ impl McpServer {
                 description: Some("Mark a memory as reviewed with FSRS rating (1=Again, 2=Hard, 3=Good, 4=Easy). Strengthens retention.".to_string()),
                 input_schema: tools::review::schema(),
             },
-            // Stats and maintenance
-            ToolDescription {
-                name: "get_stats".to_string(),
-                description: Some("Get memory system statistics including total nodes, retention, and embedding status.".to_string()),
-                input_schema: tools::stats::stats_schema(),
-            },
-            ToolDescription {
-                name: "health_check".to_string(),
-                description: Some("Check health status of the memory system.".to_string()),
-                input_schema: tools::stats::health_schema(),
-            },
-            ToolDescription {
-                name: "run_consolidation".to_string(),
-                description: Some("Run memory consolidation cycle. Applies decay, promotes important memories, generates embeddings.".to_string()),
-                input_schema: tools::consolidate::schema(),
-            },
+            // NOTE: Stats/maintenance tools (get_stats, health_check, run_consolidation)
+            // moved to CLI-only in v1.1. Use: vestige stats, vestige health, vestige consolidate
             // Codebase tools (deprecated - use unified 'codebase' tool)
             ToolDescription {
                 name: "remember_pattern".to_string(),
@@ -516,11 +504,9 @@ impl McpServer {
             }
 
             // ================================================================
-            // Stats and maintenance (not deprecated)
+            // Stats and maintenance - REMOVED from MCP in v1.1
+            // Use CLI instead: vestige stats, vestige health, vestige consolidate
             // ================================================================
-            "get_stats" => tools::stats::execute_stats(&self.storage).await,
-            "health_check" => tools::stats::execute_health(&self.storage).await,
-            "run_consolidation" => tools::consolidate::execute(&self.storage).await,
 
             // ================================================================
             // Neuroscience tools (not deprecated, except get_memory_state above)
@@ -843,9 +829,7 @@ mod tests {
         assert!(tool_names.contains(&"get_knowledge"));
         assert!(tool_names.contains(&"delete_knowledge"));
         assert!(tool_names.contains(&"mark_reviewed"));
-        assert!(tool_names.contains(&"get_stats"));
-        assert!(tool_names.contains(&"health_check"));
-        assert!(tool_names.contains(&"run_consolidation"));
+        // NOTE: get_stats, health_check, run_consolidation moved to CLI in v1.1
         assert!(tool_names.contains(&"set_intention"));
         assert!(tool_names.contains(&"check_intentions"));
         assert!(tool_names.contains(&"complete_intention"));
