@@ -1,0 +1,7 @@
+# Downloaded binaries (installed via postinstall)
+bin/vestige
+bin/vestige.exe
+bin/vestige-mcp
+bin/vestige-mcp.exe
+bin/*.tar.gz
+bin/*.zip
