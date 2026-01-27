@@ -1,92 +1,67 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
-
-permissions:
-  contents: write
+  release:
+    types: [created]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to build (e.g., v1.1.1)'
+        required: true
 
 env:
   CARGO_TERM_COLOR: always
-  CARGO_INCREMENTAL: 0
 
 jobs:
   build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          # macOS ARM64 (Apple Silicon)
-          - target: aarch64-apple-darwin
-            os: macos-latest
-          # Linux x86_64
           - target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
-          # Windows x86_64
+            archive: tar.gz
           - target: x86_64-pc-windows-msvc
             os: windows-latest
-
-    runs-on: ${{ matrix.os }}
+            archive: zip
+          - target: x86_64-apple-darwin
+            os: macos-latest
+            archive: tar.gz
+          - target: aarch64-apple-darwin
+            os: macos-latest
+            archive: tar.gz
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Build binary
-        uses: houseabsolute/actions-rust-cross@v1
+      - name: Install Rust
+        uses: dtolnay/rust-action@stable
         with:
-          command: build
-          target: ${{ matrix.target }}
-          args: "--locked --release --package vestige-mcp"
-          strip: true
+          targets: ${{ matrix.target }}
+
+      - name: Build
+        run: cargo build --package vestige-mcp --release --target ${{ matrix.target }}
 
       - name: Package (Unix)
-        if: runner.os != 'Windows'
+        if: matrix.os != 'windows-latest'
         run: |
-          mkdir -p dist
-          cp target/${{ matrix.target }}/release/vestige-mcp dist/ 2>/dev/null || true
-          cp target/${{ matrix.target }}/release/vestige dist/ 2>/dev/null || true
-          cd dist
-          tar czf vestige-mcp-${{ matrix.target }}.tar.gz *
+          cd target/${{ matrix.target }}/release
+          tar -czf ../../../vestige-mcp-${{ matrix.target }}.tar.gz vestige-mcp vestige vestige-restore
 
       - name: Package (Windows)
-        if: runner.os == 'Windows'
+        if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path dist
-          Copy-Item "target/${{ matrix.target }}/release/vestige-mcp.exe" -Destination dist/ -ErrorAction SilentlyContinue
-          Copy-Item "target/${{ matrix.target }}/release/vestige.exe" -Destination dist/ -ErrorAction SilentlyContinue
-          Compress-Archive -Path dist/* -DestinationPath "dist/vestige-mcp-${{ matrix.target }}.zip"
+          cd target/${{ matrix.target }}/release
+          Compress-Archive -Path vestige-mcp.exe,vestige.exe,vestige-restore.exe -DestinationPath ../../../vestige-mcp-${{ matrix.target }}.zip
 
-      - name: Upload artifact (Unix)
-        if: runner.os != 'Windows'
-        uses: actions/upload-artifact@v4
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: vestige-mcp-${{ matrix.target }}
-          path: dist/vestige-mcp-${{ matrix.target }}.tar.gz
-
-      - name: Upload artifact (Windows)
-        if: runner.os == 'Windows'
-        uses: actions/upload-artifact@v4
-        with:
-          name: vestige-mcp-${{ matrix.target }}
-          path: dist/vestige-mcp-${{ matrix.target }}.zip
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            artifacts/**/*.tar.gz
-            artifacts/**/*.zip
-          generate_release_notes: true
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: vestige-mcp-${{ matrix.target }}.${{ matrix.archive }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
