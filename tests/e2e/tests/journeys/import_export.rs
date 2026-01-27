@@ -290,13 +290,11 @@ fn test_roundtrip_preserves_all_data() {
 #[test]
 fn test_selective_export_by_tags() {
     // Create memories with different tags
-    let memories = vec![
-        ExportedMemory::new("Rust ownership", "concept", vec!["rust", "memory"]),
+    let memories = [ExportedMemory::new("Rust ownership", "concept", vec!["rust", "memory"]),
         ExportedMemory::new("Python generators", "concept", vec!["python", "generators"]),
         ExportedMemory::new("Rust borrowing", "concept", vec!["rust", "borrowing"]),
         ExportedMemory::new("JavaScript async", "concept", vec!["javascript", "async"]),
-        ExportedMemory::new("Rust async", "concept", vec!["rust", "async"]),
-    ];
+        ExportedMemory::new("Rust async", "concept", vec!["rust", "async"])];
 
     // Filter by "rust" tag
     let rust_memories: Vec<_> = memories

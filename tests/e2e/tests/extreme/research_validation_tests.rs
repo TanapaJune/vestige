@@ -18,7 +18,7 @@ use vestige_core::neuroscience::synaptic_tagging::{
     SynapticTaggingSystem,
 };
 use vestige_core::neuroscience::hippocampal_index::{
-    HippocampalIndex, HippocampalIndexConfig, IndexQuery, INDEX_EMBEDDING_DIM,
+    HippocampalIndex, HippocampalIndexConfig, IndexQuery,
 };
 use std::collections::HashSet;
 

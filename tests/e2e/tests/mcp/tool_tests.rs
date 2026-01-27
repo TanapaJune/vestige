@@ -325,7 +325,7 @@ fn test_mark_reviewed_with_rating() {
 
     // Rating values: 1=Again, 2=Hard, 3=Good, 4=Easy
     let rating = tool_call["arguments"]["rating"].as_i64().unwrap();
-    assert!(rating >= 1 && rating <= 4, "Rating must be 1-4");
+    assert!((1..=4).contains(&rating), "Rating must be 1-4");
 
     let expected_response = json!({
         "content": [{
@@ -356,7 +356,7 @@ fn test_mark_reviewed_invalid_rating() {
 
         // Rating should be validated
         let r = tool_call["arguments"]["rating"].as_i64().unwrap();
-        assert!(r < 1 || r > 4, "Rating {} should be invalid", r);
+        assert!(!(1..=4).contains(&r), "Rating {} should be invalid", r);
     }
 }
 

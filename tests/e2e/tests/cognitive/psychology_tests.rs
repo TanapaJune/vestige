@@ -9,7 +9,6 @@
 use vestige_core::neuroscience::spreading_activation::{
     ActivationConfig, ActivationNetwork, LinkType,
 };
-use std::collections::HashSet;
 
 // ============================================================================
 // SERIAL POSITION EFFECT TESTS (5 tests)

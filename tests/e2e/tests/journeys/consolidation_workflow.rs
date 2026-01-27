@@ -16,11 +16,10 @@ use chrono::{Duration, Utc};
 use vestige_core::{
     advanced::dreams::{
         ActivityTracker, ConnectionGraph, ConnectionReason, ConsolidationScheduler,
-        DreamConfig, DreamMemory, InsightType, MemoryDreamer,
+        DreamConfig, DreamMemory, MemoryDreamer,
     },
     consolidation::SleepConsolidation,
 };
-use std::collections::HashSet;
 
 // ============================================================================
 // HELPER FUNCTIONS

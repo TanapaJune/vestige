@@ -511,9 +511,9 @@ mod tests {
 
     #[test]
     fn test_embedding_assertions() {
-        let emb1 = vec![1.0f32, 0.0, 0.0];
-        let emb2 = vec![0.9, 0.1, 0.0];
-        let emb3 = vec![0.0, 1.0, 0.0];
+        let emb1 = [1.0f32, 0.0, 0.0];
+        let emb2 = [0.9, 0.1, 0.0];
+        let emb3 = [0.0, 1.0, 0.0];
 
         assert_embeddings_similar!(emb1, emb2, 0.8);
         assert_embeddings_different!(emb1, emb3, 0.5);

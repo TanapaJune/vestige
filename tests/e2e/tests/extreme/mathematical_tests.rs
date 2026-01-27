@@ -107,7 +107,7 @@ fn test_math_edge_weight_multiplication() {
     let mut network = ActivationNetwork::with_config(config);
 
     // Create edges with different weights
-    let test_weights = vec![0.1, 0.25, 0.5, 0.75, 1.0];
+    let test_weights = [0.1, 0.25, 0.5, 0.75, 1.0];
 
     for (i, &weight) in test_weights.iter().enumerate() {
         network.add_edge(
@@ -349,7 +349,7 @@ fn test_math_embedding_dimensions() {
     // Compression ratio should be reasonable
     let compression_ratio = 384.0 / INDEX_EMBEDDING_DIM as f64;
     assert!(
-        compression_ratio >= 2.0 && compression_ratio <= 4.0,
+        (2.0..=4.0).contains(&compression_ratio),
         "Compression ratio should be 2-4x: {:.2}x",
         compression_ratio
     );

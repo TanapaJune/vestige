@@ -22,7 +22,6 @@ use vestige_core::neuroscience::synaptic_tagging::{
 use vestige_core::neuroscience::hippocampal_index::{
     HippocampalIndex, IndexQuery,
 };
-use std::collections::HashSet;
 
 // ============================================================================
 // RANDOM OPERATION SEQUENCE TESTS (2 tests)

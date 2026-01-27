@@ -22,21 +22,19 @@
 use chrono::{Duration, Utc};
 use vestige_core::{
     // Advanced reconsolidation
-    AccessContext, AccessTrigger, LabileState, MemorySnapshot, Modification,
-    ReconsolidatedMemory, ReconsolidationManager, RelationshipType,
+    AccessContext, AccessTrigger, Modification, ReconsolidationManager, RelationshipType,
     // FSRS
-    Rating, retrievability, retrievability_with_decay, initial_difficulty, initial_stability,
-    next_interval, FSRSScheduler, FSRSState,
+    Rating, retrievability, retrievability_with_decay, initial_difficulty,
+    next_interval, FSRSScheduler,
     // Neuroscience - Synaptic Tagging
-    SynapticTaggingSystem, SynapticTag, ImportanceEvent, ImportanceEventType,
-    CaptureWindow, DecayFunction, ImportanceCluster, CapturedMemory,
+    SynapticTaggingSystem, ImportanceEvent, ImportanceEventType,
+    CaptureWindow, DecayFunction,
     // Neuroscience - Memory States
-    MemoryState, MemoryLifecycle, StateTransitionReason, AccessibilityCalculator,
-    CompetitionManager, CompetitionCandidate, StateDecayConfig, StateUpdateService,
-    MemoryStateInfo,
+    MemoryState, MemoryLifecycle, AccessibilityCalculator,
+    CompetitionManager, CompetitionCandidate,
     // Neuroscience - Importance Signals
     ImportanceSignals, NoveltySignal, ArousalSignal, RewardSignal, AttentionSignal,
-    ImportanceContext, AccessPattern, AttentionSession, OutcomeType, CompositeWeights,
+    ImportanceContext, AttentionSession, OutcomeType,
 };
 
 // ============================================================================
@@ -458,7 +456,7 @@ fn test_fsrs_initial_difficulty_order() {
 
     // All within valid bounds (1.0 to 10.0)
     for d in [d_again, d_hard, d_good, d_easy] {
-        assert!(d >= 1.0 && d <= 10.0, "Difficulty {} out of bounds", d);
+        assert!((1.0..=10.0).contains(&d), "Difficulty {} out of bounds", d);
     }
 }
 

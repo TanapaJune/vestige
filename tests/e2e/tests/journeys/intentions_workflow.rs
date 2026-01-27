@@ -12,10 +12,9 @@
 //! 4. System proactively suggests relevant memories
 //! 5. User benefits from context-aware assistance
 
-use chrono::Utc;
 use vestige_core::advanced::intent::{
     ActionType, DetectedIntent, IntentDetector, LearningLevel, MaintenanceType,
-    OptimizationType, ReviewDepth, UserAction,
+    OptimizationType, UserAction,
 };
 
 // ============================================================================
@@ -84,7 +83,7 @@ fn test_debugging_intent_detection() {
 
     // Verify evidence is captured
     assert!(
-        result.evidence.len() > 0 || result.confidence == 0.0,
+        !result.evidence.is_empty() || result.confidence == 0.0,
         "Should capture evidence if intent detected"
     );
 

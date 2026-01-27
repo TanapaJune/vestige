@@ -14,14 +14,9 @@
 use vestige_core::neuroscience::spreading_activation::{
     ActivationConfig, ActivationNetwork, LinkType,
 };
-use vestige_core::neuroscience::synaptic_tagging::{
-    CaptureWindow, ImportanceEvent, ImportanceEventType, SynapticTaggingSystem,
-};
-use vestige_core::neuroscience::hippocampal_index::{
-    BarcodeGenerator, HippocampalIndex,
-};
+use vestige_core::neuroscience::synaptic_tagging::SynapticTaggingSystem;
+use vestige_core::neuroscience::hippocampal_index::HippocampalIndex;
 use chrono::Utc;
-use std::collections::HashSet;
 
 // ============================================================================
 // MALFORMED INPUT HANDLING (2 tests)

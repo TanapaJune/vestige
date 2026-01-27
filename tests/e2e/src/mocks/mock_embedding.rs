@@ -306,7 +306,7 @@ mod tests {
         let sim = service.cosine_similarity(&emb1, &emb2);
 
         // Cosine similarity should be in [-1, 1]
-        assert!(sim >= -1.0 && sim <= 1.0);
+        assert!((-1.0..=1.0).contains(&sim));
     }
 
     #[test]

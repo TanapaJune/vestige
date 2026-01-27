@@ -119,7 +119,7 @@ fn test_standard_jsonrpc_error_codes() {
 
     for (code, message) in error_codes {
         // All standard codes are in the reserved range
-        assert!(code <= -32600 && code >= -32700,
+        assert!((-32700..=-32600).contains(&code),
             "Standard error code {} ({}) must be in reserved range", code, message);
     }
 }
@@ -142,7 +142,7 @@ fn test_mcp_specific_error_codes() {
 
     for (code, name) in mcp_error_codes {
         // MCP-specific codes are in the server error range
-        assert!(code >= -32099 && code <= -32000,
+        assert!((-32099..=-32000).contains(&code),
             "MCP error code {} ({}) must be in server error range", code, name);
     }
 }
