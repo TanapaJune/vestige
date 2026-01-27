@@ -1,0 +1,14 @@
+# Don't publish downloaded binaries (installed via postinstall)
+bin/vestige
+bin/vestige.exe
+bin/vestige-mcp
+bin/vestige-mcp.exe
+bin/*.tar.gz
+bin/*.zip
+
+# Don't publish embedding model cache
+.fastembed_cache/
+
+# Dev files
+*.log
+.DS_Store
