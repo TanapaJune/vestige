@@ -1,0 +1,33 @@
+{
+  "manifest_version": "0.2",
+  "name": "vestige",
+  "display_name": "Vestige",
+  "version": "1.1.0",
+  "description": "AI memory system built on 130 years of cognitive science. FSRS-6 spaced repetition, synaptic tagging, and local-first storage.",
+  "author": {
+    "name": "Sam Valladares",
+    "url": "https://github.com/samvallad33"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samvallad33/vestige"
+  },
+  "license": "MIT",
+  "server": {
+    "type": "binary",
+    "entry_point": "server/vestige-mcp-darwin-arm64",
+    "mcp_config": {
+      "command": "${__dirname}/server/vestige-mcp-darwin-arm64",
+      "args": [],
+      "env": {},
+      "platform_overrides": {
+        "win32": {
+          "command": "${__dirname}/server/vestige-mcp-win32-x64.exe"
+        },
+        "linux": {
+          "command": "${__dirname}/server/vestige-mcp-linux-x64"
+        }
+      }
+    }
+  }
+}

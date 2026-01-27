@@ -7,6 +7,7 @@ const os = require('os');
 const { execSync } = require('child_process');
 
 const VERSION = require('../package.json').version;
+const BINARY_VERSION = '1.1.0'; // GitHub release version for binaries
 const PLATFORM = os.platform();
 const ARCH = os.arch();
 
@@ -34,7 +35,7 @@ const target = `${archStr}-${platformStr}`;
 const isWindows = PLATFORM === 'win32';
 const archiveExt = isWindows ? 'zip' : 'tar.gz';
 const archiveName = `vestige-mcp-${target}.${archiveExt}`;
-const downloadUrl = `https://github.com/samvallad33/vestige/releases/download/v${VERSION}/${archiveName}`;
+const downloadUrl = `https://github.com/samvallad33/vestige/releases/download/v${BINARY_VERSION}/${archiveName}`;
 
 const targetDir = path.join(__dirname, '..', 'bin');
 const archivePath = path.join(targetDir, archiveName);

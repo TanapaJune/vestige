@@ -1,0 +1,5 @@
+# Built bundles
+*.mcpb
+
+# Downloaded binaries (fetched during build)
+server/

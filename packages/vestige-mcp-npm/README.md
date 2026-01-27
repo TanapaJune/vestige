@@ -7,7 +7,7 @@ Built on 130 years of cognitive science research, Vestige provides biologically-
 ## Installation
 
 ```bash
-npm install -g @vestige/mcp
+npm install -g vestige-mcp-server
 ```
 
 This automatically downloads the correct binary for your platform (macOS, Linux, Windows) from GitHub releases.
@@ -107,7 +107,7 @@ export FASTEMBED_CACHE_PATH="$HOME/.fastembed_cache"
 
 Reinstall the package:
 ```bash
-npm install -g @vestige/mcp
+npm install -g vestige-mcp-server
 ```
 
 ### Embeddings not downloading
