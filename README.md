@@ -136,12 +136,14 @@ claude mcp add vestige /full/path/to/vestige-mcp -s user
 </details>
 
 <details>
-<summary>.fastembed_cache appearing in project folders</summary>
+<summary>Model cache location</summary>
 
-Run once from home directory to create cache there:
-```bash
-cd ~ && vestige health
-```
+The embedding model (~130MB) is cached in platform-specific directories:
+- **macOS**: `~/Library/Caches/com.vestige.core/fastembed`
+- **Linux**: `~/.cache/vestige/fastembed`
+- **Windows**: `%LOCALAPPDATA%\vestige\cache\fastembed`
+
+Override with: `export FASTEMBED_CACHE_PATH=/custom/path`
 </details>
 
 <details>

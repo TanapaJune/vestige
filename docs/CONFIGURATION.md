@@ -10,19 +10,19 @@ Vestige downloads the **Nomic Embed Text v1.5** model (~130MB) from Hugging Face
 
 **All subsequent runs are fully offline.**
 
-Model cache location:
-- Creates `.fastembed_cache/` in the current working directory on first run
-- Contains symlinks to model files in `~/.cache/huggingface/`
+### Model Cache Location
 
-**Recommended**: Run your first Vestige command from your home directory:
-```bash
-cd ~
-vestige health   # Creates ~/.fastembed_cache/ once
-```
+The embedding model is cached in platform-specific directories:
 
-Or set the environment variable:
+| Platform | Cache Location |
+|----------|----------------|
+| macOS | `~/Library/Caches/com.vestige.core/fastembed` |
+| Linux | `~/.cache/vestige/fastembed` |
+| Windows | `%LOCALAPPDATA%\vestige\cache\fastembed` |
+
+Override with environment variable:
 ```bash
-export FASTEMBED_CACHE_PATH="$HOME/.fastembed_cache"
+export FASTEMBED_CACHE_PATH="/custom/path"
 ```
 
 ---

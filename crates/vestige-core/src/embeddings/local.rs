@@ -35,14 +35,47 @@ pub const BATCH_SIZE: usize = 32;
 /// Result type for model initialization
 static EMBEDDING_MODEL_RESULT: OnceLock<Result<Mutex<TextEmbedding>, String>> = OnceLock::new();
 
+/// Get the default cache directory for fastembed models
+/// Uses FASTEMBED_CACHE_PATH env var, or falls back to platform cache directory
+fn get_cache_dir() -> std::path::PathBuf {
+    if let Ok(path) = std::env::var("FASTEMBED_CACHE_PATH") {
+        return std::path::PathBuf::from(path);
+    }
+
+    // Use platform-appropriate cache directory via directories crate
+    // macOS: ~/Library/Caches/com.vestige.core/fastembed
+    // Linux: ~/.cache/vestige/fastembed
+    // Windows: %LOCALAPPDATA%\vestige\cache\fastembed
+    if let Some(proj_dirs) = directories::ProjectDirs::from("com", "vestige", "core") {
+        return proj_dirs.cache_dir().join("fastembed");
+    }
+
+    // Fallback to home directory
+    if let Some(base_dirs) = directories::BaseDirs::new() {
+        return base_dirs.home_dir().join(".cache/vestige/fastembed");
+    }
+
+    // Last resort fallback (shouldn't happen)
+    std::path::PathBuf::from(".fastembed_cache")
+}
+
 /// Initialize the global embedding model
 /// Using nomic-embed-text-v1.5 (768d) - 8192 token context, Matryoshka support
 fn get_model() -> Result<std::sync::MutexGuard<'static, TextEmbedding>, EmbeddingError> {
     let result = EMBEDDING_MODEL_RESULT.get_or_init(|| {
+        // Get cache directory (respects FASTEMBED_CACHE_PATH env var)
+        let cache_dir = get_cache_dir();
+
+        // Create cache directory if it doesn't exist
+        if let Err(e) = std::fs::create_dir_all(&cache_dir) {
+            tracing::warn!("Failed to create cache directory {:?}: {}", cache_dir, e);
+        }
+
         // nomic-embed-text-v1.5: 768 dimensions, 8192 token context
         // Matryoshka representation learning, fully open source
-        let options =
-            InitOptions::new(EmbeddingModel::NomicEmbedTextV15).with_show_download_progress(true);
+        let options = InitOptions::new(EmbeddingModel::NomicEmbedTextV15)
+            .with_show_download_progress(true)
+            .with_cache_dir(cache_dir);
 
         TextEmbedding::try_new(options)
             .map(Mutex::new)
