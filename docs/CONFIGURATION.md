@@ -142,7 +142,7 @@ sudo cp target/release/vestige-mcp /usr/local/bin/
 
 **Pin to specific version:**
 ```bash
-git checkout v1.1.1
+git checkout v1.1.2
 cargo build --release
 ```
 
